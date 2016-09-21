@@ -43,15 +43,20 @@ app.use(require('webpack-dev-middleware')(compiler, {
 // compilation error display
 app.use(require('webpack-hot-middleware')(compiler));
 
-// Pass just the user id to the passport middleware
+// Passport needs to be able to serialize and deserialize users to support persistent login sessions
 passport.serializeUser(function(user, done) {
 	done(null, user.id);
 });
 
-// Reading your user base ont he user.id
 passport.deserializeUser(function(id, done) {
-	User.get(id).run().then(function(user) {
-		done(null, user.public());
+	User.get(id).run().then(function(result) {
+		if (null === result) {
+			// no user found
+			done(true, null);
+		} else {
+			// user was succesfully deleted
+			done(null, result);
+		}
 	});
 });
 
