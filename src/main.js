@@ -35,6 +35,6 @@ Vue.router.map({
 Vue.router.redirect({
 	'*': '/',
 });
-Vue.http.options.emulateJSON = true;
+Vue.http.headers.common['Content-Type'] = 'application/json';
 
 Vue.router.start(App, '#app');

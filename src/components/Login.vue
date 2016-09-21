@@ -20,7 +20,6 @@ export default {
   attached() {},
   methods: {
     submit() {
-      console.log("Attempt login");
       if (this.email !== '') {
         this.$http.post('http://localhost:8090/api/login', {
           email: this.email,
@@ -28,7 +27,7 @@ export default {
         }).then(response => {
           console.log(response)
         })
-        this.title = ''
+        this.email = ''
       } else {
         console.log('Please write a title')
       }

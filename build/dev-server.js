@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const webpack = require('webpack');
 const config = require('./webpack.dev.conf.js');
 const _ = require('lodash');
+const thinky = require('thinky')({});
+var bCrypt = require('bcrypt');
 
 const app = express();
 const router = express.Router();
@@ -16,7 +18,6 @@ app.use(require('express-session')({
 	saveUninitialized: false
 }));
 app.use(flash());
-
 
 // import necessary modules for Passport
 var passport = require('passport');
@@ -55,41 +56,40 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new LocalStrategy({
-		passReqToCallback: true,
 		usernameField: 'email',
-		passwordField: 'password',
+		passwordField: 'password'
 	},
 	function(email, password, done) {
-		User.getAll(email, { index: 'email' }).run()
-			.then(function(users) {
-				// Was a user found?
-				if (users.length) {
-					// Attempt authenticating with the supplied password
-					if (users[0].authenticate(password)) {
-						done(null, user.public());
-						console.log("LOGGED IN");
-					}
-					// Supplied password incorrect
-					else {
-						setTimeout(function() {
-							("Sorry, your password is incorrect", false);
-						}, 3000);
-					}
-				}
-				// No user was found
-				else {
-					setTimeout(function() {
-						return done("Sorry, no account was found for that email", false);
-					}, 3000);
-				}
-			});
+		User.filter({ email: email }).run().then(function(result) {
+			if (!result.length) {
+				// no user found
+				console.log("No user found");
+				return done(null, true, { blame: 'submit', reason: 'Ups, look like you typed something wrong, recheck your entry please.' });
+			}
+			var user = result[0];
+			console.log(user.hash);
+			console.log(password);
+			if (!isValidPassword(user, password)) {
+				// wrong password
+				console.log("Wrong password");
+				return done(null, true, { blame: 'submit', reason: 'Ups, look like you typed something wrong, recheck your entry please.' });
+			} else {
+				console.log("should work");
+				return done(null, user);
+			}
+		});
 	}));
+
+function isValidPassword(user, password) {
+	return bCrypt.compareSync(password, user.hash);
+};
 
 //ROUTES
 router.post('/register', jsonParser, (req, res) => {
 	console.log("SIGNUP TRIGGERED");
+	console.log(req.body);
 	var user = new User({
-		email: req.body.email,
+		email: req.body.email.toString(),
 		password: req.body.password
 	});
 	user.save().then(function(result) {
@@ -98,15 +98,7 @@ router.post('/register', jsonParser, (req, res) => {
 	}).error(handleError(res));
 });
 
-// router.post('/login',
-// 	passport.authenticate('local', {
-// 		successRedirect: '/',
-// 		failureRedirect: '/login',
-// 		failureFlash: true
-// 	})
-// );
-
-router.post('/login', bodyParser.urlencoded({ extended: true }), function(req, res, next) {
+router.post('/login', jsonParser, function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 		if (err) {
 			return next(err)
@@ -126,28 +118,19 @@ router.post('/login', bodyParser.urlencoded({ extended: true }), function(req, r
 	})(req, res, next);
 });
 
-// router.post('/login', jsonParser, (req, res) => {
-// 	console.log("LOGIN TRIGGERED");
-// 	res.json({ loggedin: true });
-// });
-
-// router.post('/login', passport.authenticate('local', {
-// 	successRedirect: '/',
-// 	failureRedirect: '/login'
-// }));
 
 function handleError(res) {
 	return function(error) {
 		return res.send(500, { error: error.message });
 	}
-}
+};
 
 //Server port
-app.use('/api', router)
+app.use('/api', router);
 app.listen(8090, 'localhost', function(err) {
 	if (err) {
 		console.log(err)
 		return
 	}
 	console.log('Listening at http://localhost:8090')
-})
+});

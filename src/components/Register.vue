@@ -20,7 +20,7 @@ export default {
   attached() {},
   methods: {
     submit() {
-      console.log("Submit");
+      console.log("Attempt register");
       if (this.email !== '') {
         this.$http.post('http://localhost:8090/api/register', {
           email: this.email,
