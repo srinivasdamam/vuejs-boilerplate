@@ -25,7 +25,7 @@ export default {
           email: this.email,
           password: this.password
         }).then(response => {
-          console.log(response)
+          console.log(response.token)
         })
         this.email = ''
       } else {

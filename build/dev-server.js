@@ -5,27 +5,32 @@ const webpack = require('webpack');
 const config = require('./webpack.dev.conf.js');
 const _ = require('lodash');
 const thinky = require('thinky')({});
-var bCrypt = require('bcrypt');
+const bCrypt = require('bcrypt');
+const jwt = require('jwt-simple');
 
 const app = express();
 const router = express.Router();
 const compiler = webpack(config);
 const jsonParser = bodyParser.json();
 const flash = require('connect-flash');
+const passport = require('passport');
+
+var User = require('./models/user.js');
+
+//Express Config
 app.use(require('express-session')({
 	secret: 'keyboard cat',
 	resave: false,
 	saveUninitialized: false
 }));
 app.use(flash());
+app.set('jwtTokenSecret', 'secret');
 
 // import necessary modules for Passport
-var passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Import this at the top of index.js
-var User = require('./models/user.js');
 const LocalStrategy = require('passport-local').Strategy;
 
 // handle fallback for HTML5 history API
@@ -72,14 +77,12 @@ passport.use(new LocalStrategy({
 				return done(null, true, { blame: 'submit', reason: 'Ups, look like you typed something wrong, recheck your entry please.' });
 			}
 			var user = result[0];
-			console.log(user.hash);
-			console.log(password);
 			if (!isValidPassword(user, password)) {
 				// wrong password
 				console.log("Wrong password");
 				return done(null, true, { blame: 'submit', reason: 'Ups, look like you typed something wrong, recheck your entry please.' });
 			} else {
-				console.log("should work");
+				console.log("User authenticated");
 				return done(null, user);
 			}
 		});
@@ -103,27 +106,22 @@ router.post('/register', jsonParser, (req, res) => {
 	}).error(handleError(res));
 });
 
+//Login Route
 router.post('/login', jsonParser, function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 		if (err) {
 			return next(err)
 		}
 		if (!user) {
-			console.log('bad');
-			req.session.messages = [info.message];
-			return res.redirect('/login')
+			return res.json(401, { error: 'message' });
 		}
-		req.logIn(user, function(err) {
-			console.log('good');
-			if (err) {
-				return next(err);
-			}
-			return res.redirect('/');
-		});
+		//user has authenticated correctly thus we create a JWT token
+		var token = jwt.encode({ username: user.email }, 'tokenSecret');
+		res.json({ token: token });
 	})(req, res, next);
 });
 
-
+//Error Handling
 function handleError(res) {
 	return function(error) {
 		return res.send(500, { error: error.message });
