@@ -1,6 +1,6 @@
-# vue-auth
+# vuejs-starter-kit
 
-> A Vue.js project
+> Vue.js Starter Kit
 
 ## Build Setup
 
@@ -14,14 +14,13 @@ npm run dev
 # build for production with minification
 npm run build
 
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
+## CHANGE LOG
+### 0.1
+- Vue-auth + Passport JS working together for Authentication
+- RethinkDB connected and hosts the user accounts
+- Bulma.io CSS library for UI
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## TODO LIST
+- Basic CRUD
+- More advanced user system (roles + forgot password)

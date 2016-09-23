@@ -2,7 +2,7 @@
   <nav class="nav">
     <div class="nav-left">
       <a class="nav-item is-brand" href="#">
-        <img src="../../assets/logo.png" alt="Bulma logo">
+        <img src="../../assets/logo.png" alt="Vue Logo">
       </a>
     </div>
 

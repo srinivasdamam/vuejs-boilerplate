@@ -1,7 +1,7 @@
 {
-  "name": "vue-auth",
-  "version": "1.0.0",
-  "description": "A Vue.js project",
+  "name": "vuejs-starter-kit",
+  "version": "0.1",
+  "description": "A Vue.js boilerplate with authentication, CRUD and more.",
   "author": "Patrick Bollenbach <patrickbollenbachcc@gmail.com>",
   "private": true,
   "scripts": {
