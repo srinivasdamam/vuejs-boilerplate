@@ -10,10 +10,12 @@
     "test": ""
   },
   "dependencies": {
+    "@websanova/vue-auth": "^1.0.9-dev",
     "babel-runtime": "^6.0.0",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
+    "bulma": "^0.1.2",
     "connect-flash": "^0.1.1",
     "cors": "^2.8.1",
     "express-jwt": "^5.0.0",

@@ -1,26 +1,30 @@
-<template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-  </div>
+<template lang="html">
+  <section class="hero is-dark is-bold is-medium">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-2">
+          Vue.js, Express + RethinkDB Starter Kit
+        </h1>
+        <h2 class="subtitle">
+          Built by <a href="http://patrickbollenbach.com">Patrick Bollenbach</a>
+        </h2>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
 export default {
   data () {
-    return {
-      // note: changing this line won't causes changes
-      // with hot-reload because the reloaded component
-      // preserves its current state and we are modifying
-      // its initial state.
-      msg: 'Hello World!'
-    }
-  }
+    return {}
+  },
+  computed: {},
+  ready () {},
+  attached () {},
+  methods: {},
+  components: {}
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1 {
-  color: #42b983;
-}
+<style lang="css">
 </style>

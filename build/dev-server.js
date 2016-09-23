@@ -93,7 +93,7 @@ function isValidPassword(user, password) {
 };
 
 //ROUTES
-router.post('/register', jsonParser, (req, res) => {
+router.post('/auth/register', jsonParser, (req, res) => {
 	console.log("SIGNUP TRIGGERED");
 	console.log(req.body);
 	var user = new User({
@@ -107,18 +107,23 @@ router.post('/register', jsonParser, (req, res) => {
 });
 
 //Login Route
-router.post('/login', jsonParser, function(req, res, next) {
+router.post('/auth/login', jsonParser, function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 		if (err) {
 			return next(err)
 		}
 		if (!user) {
-			return res.json(401, { error: 'message' });
+			return res.status(401).json({ error: 'No user found' });
 		}
 		//user has authenticated correctly thus we create a JWT token
 		var token = jwt.encode({ username: user.email }, 'tokenSecret');
 		res.json({ token: token });
 	})(req, res, next);
+});
+
+//Get user info
+router.get('/auth/user', jsonParser, (req, res) => {
+	res.json({ email: "patrick.bolle@hotmail.carm" });
 });
 
 //Error Handling

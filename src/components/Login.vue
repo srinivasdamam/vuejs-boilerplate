@@ -1,9 +1,17 @@
 <template lang="html">
-  <h1>Login</h1>
+  <h1 class="title is-1">Login</h1>
+  <hr>
   <form v-on:submit.prevent="submit">
-    <label><input type="email" name="email" v-model="email" placeholder="Email"></label>
-    <label><input type="password" name="password" v-model="password" placeholder="Password"></label>
-    <button type="submit" name="button">Sign Up</button>
+    <p class="control">
+      <label class="label">Email</label>
+      <input class="input" type="email" name="email" v-model="body.email" placeholder="Email">
+    </p>
+    <p class="control">
+      <label class="label">Password</label>
+        <input class="input" type="password" name="password" v-model="body.password" placeholder="Password">
+      </label>
+    </p>
+    <button type="submit" class="button is-primary">Submit</button>
   </form>
 </template>
 
@@ -11,8 +19,10 @@
 export default {
   data () {
     return {
-      email: '',
-      password: ''
+      body: {
+        email: '',
+        password: ''
+      }
     };
   },
   computed: {},
@@ -20,17 +30,13 @@ export default {
   attached() {},
   methods: {
     submit() {
-      if (this.email !== '') {
-        this.$http.post('http://localhost:8090/api/login', {
-          email: this.email,
-          password: this.password
-        }).then(response => {
-          console.log(response.token)
-        })
-        this.email = ''
-      } else {
-        console.log('Please write a title')
-      }
+      this.$auth.login({
+          body: this.body,
+          success: function () { console.log("AUTH SUCCESS WOOOO"); },
+          error: function () { console.log("AUTH FAILURE BOOOOO"); },
+          rememberMe: true,
+          redirect: '/',
+      });
     }
   },
   components: {}

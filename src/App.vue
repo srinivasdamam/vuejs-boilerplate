@@ -1,47 +1,30 @@
 <template>
   <div id="app">
-    <img class="logo" src="./assets/logo.png">
-    <router-view></router-view>
+    <navbar></navbar>
+      <router-view></router-view>
+    <foot></foot>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Navbar from './components/layout/Navbar.vue';
+import Foot from './components/layout/Foot.vue';
 
 export default {
   components: {
-    Hello
+    Navbar,
+    Foot
   }
 }
 </script>
 
 <style>
+@import "../node_modules/bulma/css/bulma.css";
+
 html {
-  height: 100%;
+  background: white;
 }
-
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-#app {
-  color: #2c3e50;
-  margin-top: -100px;
-  max-width: 600px;
-  font-family: Source Sans Pro, Helvetica, sans-serif;
-  text-align: center;
-}
-
-#app a {
-  color: #42b983;
-  text-decoration: none;
-}
-
-.logo {
-  width: 100px;
-  height: 100px
+.container {
+  padding-top: 25px;
 }
 </style>

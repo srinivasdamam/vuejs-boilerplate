@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import VueAuth from '@websanova/vue-auth';
 import Resource from 'vue-resource';
 import App from './App';
 
@@ -22,12 +23,15 @@ Vue.router = new Router({
 
 Vue.router.map({
 	'/': {
+		auth: true,
 		component: Hello,
 	},
 	'/register': {
+		auth: false,
 		component: Register,
 	},
 	'/login': {
+		auth: false,
 		component: Login,
 	},
 });
@@ -35,6 +39,13 @@ Vue.router.map({
 Vue.router.redirect({
 	'*': '/',
 });
+
+Vue.use(VueAuth, {
+	rolesVar: 'roles'
+});
+
+Vue.http.options.root = 'http://localhost:8090/api';
+
 Vue.http.headers.common['Content-Type'] = 'application/json';
 
 Vue.router.start(App, '#app');
