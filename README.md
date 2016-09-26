@@ -24,3 +24,8 @@ npm run build
 ## TODO LIST
 - Basic CRUD
 - More advanced user system (roles + forgot password)
+
+## NEED HELP WITH
+- Understanding JWT flow a bit better to work with Vue-auth plugin.
+
+Any help is appreciated folks!
