@@ -1,7 +1,7 @@
 <template lang="html">
   <nav class="nav">
     <div class="nav-left">
-      <a class="nav-item is-brand" href="#">
+      <a class="nav-item is-brand" href="/">
         <img src="../../assets/logo.png" alt="Vue Logo">
       </a>
     </div>
@@ -46,9 +46,7 @@
 <script>
 export default {
   data () {
-    return {
-        context: 'account context'
-    };
+    return {};
   },
   computed: {},
   ready () {},

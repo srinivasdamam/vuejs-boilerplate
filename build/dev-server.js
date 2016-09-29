@@ -119,7 +119,6 @@ router.get('/auth/user', (req, res) => {
 	var decoded = jwt.decode(token, 'lkmaspokjsafpaoskdpa8asda0s9a');
 	User.filter({ id: decoded.id }).run().then(function(result) {
 		var user = result[0];
-		console.log(user.email);
 		return res.json({ success: true, data: user });
 	});
 });
@@ -129,13 +128,22 @@ router.get('/auth/refresh', jsonParser, (req, res) => {
 	return res.json({ status: 'success' });
 });
 
-//DATA ROUTES
+// DATA ROUTES
+// GET - All User Data
 router.get('/users', (req, res) => {
 	User.run().then(function(result) {
 		return res.json({ success: true, data: result });
 	})
 });
 
+// DELETE - Single User Account
+router.delete('/users/:id', (req, res) => {
+	User.get(req.params.id).then(function(user) {
+		user.delete().then(function(result) {
+			return res.json({ success: true });
+		});
+	});
+});
 
 //Error Handling
 function handleError(res) {

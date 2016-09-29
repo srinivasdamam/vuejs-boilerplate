@@ -27,4 +27,3 @@ npm run build
 ## TODO LIST
 - Basic CRUD
 - More advanced user system (roles + forgot password)
--
