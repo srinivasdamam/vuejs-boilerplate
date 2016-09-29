@@ -1,5 +1,5 @@
 # vuejs-starter-kit
-Vue.js Starter Kit Boilerplate 
+Vue.js Starter Kit Boilerplate
 
 ## Build Setup
 
