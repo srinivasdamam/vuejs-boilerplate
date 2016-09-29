@@ -8,7 +8,7 @@ import App from './App';
 import Register from './components/pages/Register.vue';
 import Hello from './components/pages/Hello.vue';
 import Login from './components/pages/Login.vue';
-import Secret from './components/pages/Secret.vue';
+import Users from './components/pages/Users.vue';
 
 // Vue Use Imports
 Vue.use(Router);
@@ -26,9 +26,9 @@ Vue.router.map({
 	'/': {
 		component: Hello,
 	},
-	'/secret': {
+	'/users': {
 		auth: true,
-		component: Secret,
+		component: Users,
 	},
 	'/register': {
 		auth: false,

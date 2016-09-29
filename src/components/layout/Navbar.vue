@@ -30,8 +30,8 @@
       <a class="nav-item" v-if="!$auth.check()" v-link="'/register'">
         Register
       </a>
-      <a v-if="$auth.check()" v-link="'/secret'" class="nav-item">
-        Secret Page
+      <a v-if="$auth.check()" v-link="'/users'" class="nav-item">
+        Users
       </a>
       <a class="nav-item" href="#" >
         {{ $auth.user().email }}

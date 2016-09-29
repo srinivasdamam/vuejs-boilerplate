@@ -18,19 +18,11 @@ const passport = require('passport');
 var User = require('./models/user.js');
 
 //Express Config
-app.use(require('express-session')({
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: false
-}));
 app.use(flash());
-app.set('jwtTokenSecret', 'secret');
 
 // import necessary modules for Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Import this at the top of index.js
 const LocalStrategy = require('passport-local').Strategy;
 
 // handle fallback for HTML5 history API
@@ -93,6 +85,7 @@ function isValidPassword(user, password) {
 };
 
 //ROUTES
+//AUTHENTICATION ROUTES
 router.post('/auth/register', jsonParser, (req, res) => {
 	var user = new User({
 		email: req.body.email.toString(),
@@ -135,6 +128,14 @@ router.get('/auth/user', (req, res) => {
 router.get('/auth/refresh', jsonParser, (req, res) => {
 	return res.json({ status: 'success' });
 });
+
+//DATA ROUTES
+router.get('/users', (req, res) => {
+	User.run().then(function(result) {
+		return res.json({ success: true, data: result });
+	})
+});
+
 
 //Error Handling
 function handleError(res) {

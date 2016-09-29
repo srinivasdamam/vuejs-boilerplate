@@ -1,6 +1,5 @@
 # vuejs-starter-kit
-
-> Vue.js Starter Kit Boilerplate 
+Vue.js Starter Kit Boilerplate 
 
 ## Build Setup
 
@@ -16,6 +15,10 @@ npm run build
 
 ```
 ## CHANGE LOG
+### 0.2
+- Vue-Auth working properly now, shows user data with $auth.user().email, etc.
+- Register/Login/Logout works, needs more error checking though
+
 ### 0.1
 - Vue-auth + Passport JS working together for Authentication
 - RethinkDB connected and hosts the user accounts
@@ -24,3 +27,4 @@ npm run build
 ## TODO LIST
 - Basic CRUD
 - More advanced user system (roles + forgot password)
+-
