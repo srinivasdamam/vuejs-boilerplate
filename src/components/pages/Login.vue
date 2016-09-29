@@ -19,6 +19,7 @@
 export default {
   data () {
     return {
+      context: 'login context',
       body: {
         email: '',
         password: ''
@@ -32,10 +33,12 @@ export default {
     submit() {
       this.$auth.login({
           body: this.body,
-          success: function () { console.log("AUTH SUCCESS WOOOO"); },
+          redirect: '/',
+          success: function () {
+             console.log(this.$auth.user()); 
+           },
           error: function () { console.log("AUTH FAILURE BOOOOO"); },
           rememberMe: true,
-          redirect: '/',
       });
     }
   },

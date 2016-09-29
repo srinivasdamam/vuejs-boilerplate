@@ -1,7 +1,7 @@
 <template lang="html">
-  <section class="hero is-dark is-bold is-medium">
+  <section class="hero is-light is-bold is-medium full-width">
     <div class="hero-body">
-      <div class="container">
+      <div class="container has-text-centered">
         <h1 class="title is-2">
           Vue.js, Express + RethinkDB Starter Kit
         </h1>

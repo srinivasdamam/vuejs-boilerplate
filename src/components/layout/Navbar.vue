@@ -7,7 +7,7 @@
     </div>
 
     <div class="nav-center">
-      <a class="nav-item" href="#">
+      <a class="nav-item" href="https://github.com/patrickbolle/vuejs-starter-kit">
         <span class="icon">
           <i class="fa fa-github"></i>
         </span>
@@ -21,8 +21,6 @@
     </span>
 
     <div class="nav-right nav-menu">
-      <a href="#" ></a>
-      <p>{{ $auth.user().email }}</p>
       <a class="nav-item" href="/">
         Home
       </a>
@@ -31,6 +29,12 @@
       </a>
       <a class="nav-item" v-if="!$auth.check()" v-link="'/register'">
         Register
+      </a>
+      <a v-if="$auth.check()" v-link="'/secret'" class="nav-item">
+        Secret Page
+      </a>
+      <a class="nav-item" href="#" >
+        {{ $auth.user().email }}
       </a>
       <a v-if="$auth.check()" v-on:click="$auth.logout()" class="nav-item" href="#">
         Logout
@@ -42,7 +46,9 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+        context: 'account context'
+    };
   },
   computed: {},
   ready () {},

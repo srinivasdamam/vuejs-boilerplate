@@ -94,15 +94,12 @@ function isValidPassword(user, password) {
 
 //ROUTES
 router.post('/auth/register', jsonParser, (req, res) => {
-	console.log("SIGNUP TRIGGERED");
-	console.log(req.body);
 	var user = new User({
 		email: req.body.email.toString(),
 		password: req.body.password
 	});
 	user.save().then(function(result) {
 		res.send(result);
-		console.log("Worked");
 	}).error(handleError(res));
 });
 
@@ -112,18 +109,31 @@ router.post('/auth/login', jsonParser, function(req, res, next) {
 		if (err) {
 			return next(err)
 		}
-		if (!user) {
+		if (user) {
+			//user has authenticated correctly thus we create a JWT token
+			var token = jwt.encode(user, 'lkmaspokjsafpaoskdpa8asda0s9a');
+			return res.json({ success: true, token: 'JWT ' + token });
+		} else {
 			return res.status(401).json({ error: 'No user found' });
 		}
-		//user has authenticated correctly thus we create a JWT token
-		var token = jwt.encode({ username: user.email }, 'tokenSecret');
-		res.json({ token: token });
 	})(req, res, next);
 });
 
 //Get user info
-router.get('/auth/user', jsonParser, (req, res) => {
-	res.json({ email: "patrick.bolle@hotmail.carm" });
+router.get('/auth/user', (req, res) => {
+	var splitToken = req.headers.authorization.split(' ');
+	var token = splitToken[2];
+	var decoded = jwt.decode(token, 'lkmaspokjsafpaoskdpa8asda0s9a');
+	User.filter({ id: decoded.id }).run().then(function(result) {
+		var user = result[0];
+		console.log(user.email);
+		return res.json({ success: true, data: user });
+	});
+});
+
+//Refresh user data
+router.get('/auth/refresh', jsonParser, (req, res) => {
+	return res.json({ status: 'success' });
 });
 
 //Error Handling
