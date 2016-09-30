@@ -1,5 +1,11 @@
 # vuejs-starter-kit
 Vue.js Starter Kit Boilerplate
+#### Includes
+- Vue.js
+- Express
+- Passport 
+- Vue-Auth
+- RethinkDB
 
 ## Build Setup
 
