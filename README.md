@@ -7,6 +7,10 @@ Vue.js Starter Kit Boilerplate
 - Vue-Auth
 - RethinkDB
 
+## Ideas?
+So the team behind RethinkDB just shut down... meaning the future of the database is uncertain. I'd be interested to hear anyones thoughts on alternatives to Rethink with easy setup and similar features.
+Vue was also upgraded to 2.0 so I will most likely be "re-writing" the codebase to the new 2.0 webpack template as well.
+
 ## Build Setup
 
 ``` bash
