@@ -39,6 +39,8 @@ npm run build
 - RethinkDB connected and hosts the user accounts
 - Bulma.io CSS library for UI
 
-TODO LIST
+## TODO LIST
 - Basic CRUD
 - More advanced user system (roles + forgot password)
+- Deploy to a demo server for people to try out + test
+- Better error handling (almost none now)
