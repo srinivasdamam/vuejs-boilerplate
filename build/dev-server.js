@@ -63,19 +63,17 @@ passport.use(new LocalStrategy({
 	},
 	function(email, password, done) {
 		User.filter({ email: email }).run().then(function(result) {
-			if (!result.length) {
-				// no user found
-				console.log("No user found");
-				return done(null, true, { blame: 'submit', reason: 'Ups, look like you typed something wrong, recheck your entry please.' });
-			}
-			var user = result[0];
-			if (!isValidPassword(user, password)) {
-				// wrong password
-				console.log("Wrong password");
-				return done(null, true, { blame: 'submit', reason: 'Ups, look like you typed something wrong, recheck your entry please.' });
+			console.log(result.length);
+			if (result.length) {
+				var user = result[0];
+				if (isValidPassword(user, password)) {
+					return done(null, user);
+				} else {
+					return done("Email or password is incorrect.", false);
+				}
 			} else {
-				console.log("User authenticated");
-				return done(null, user);
+				// no user found
+				return done("No user found.", false);
 			}
 		});
 	}));
@@ -87,27 +85,31 @@ function isValidPassword(user, password) {
 //ROUTES
 //AUTHENTICATION ROUTES
 router.post('/auth/register', jsonParser, (req, res) => {
-	var user = new User({
-		email: req.body.email.toString(),
-		password: req.body.password
+	User.filter({ email: req.body.email }).run().then(function(userArray) {
+		if (userArray[0]) {
+			return res.status(400).json({ error: "Email is already in use." });
+		} else {
+			var user = new User({
+				email: req.body.email.toString(),
+				password: req.body.password
+			});
+			user.save().then(function(result) {
+				return res.send(result);
+			}).error(handleError(res));
+		}
 	});
-	user.save().then(function(result) {
-		res.send(result);
-	}).error(handleError(res));
 });
 
 //Login Route
 router.post('/auth/login', jsonParser, function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 		if (err) {
-			return next(err)
+			return res.status(400).json({ error: err });
 		}
 		if (user) {
 			//user has authenticated correctly thus we create a JWT token
 			var token = jwt.encode(user, 'lkmaspokjsafpaoskdpa8asda0s9a');
 			return res.json({ success: true, token: 'JWT ' + token });
-		} else {
-			return res.status(401).json({ error: 'No user found' });
 		}
 	})(req, res, next);
 });

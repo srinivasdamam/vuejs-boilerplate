@@ -25,6 +25,7 @@ var router = new Router({
 });
 
 Vue.use(require('@websanova/vue-auth'), {
+	loginData: { url: 'auth/login', method: 'POST', redirect: null },
 	router: router
 });
 
