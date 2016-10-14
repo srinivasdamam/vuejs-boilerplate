@@ -4,7 +4,11 @@ const bodyParser = require('body-parser');
 const webpack = require('webpack');
 const config = require('./webpack.dev.conf.js');
 const _ = require('lodash');
-const thinky = require('thinky')({});
+const thinky = require('thinky')({
+	servers: [
+		{ host: '138.197.141.185', port: 11599 }
+	]
+});
 const bCrypt = require('bcrypt');
 const jwt = require('jwt-simple');
 
